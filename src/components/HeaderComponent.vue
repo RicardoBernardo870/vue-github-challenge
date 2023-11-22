@@ -17,7 +17,6 @@ const username = computed(() => firebaseStore.username ? firebaseStore.username 
 const signOut = async () => {
   try {
     await authStore.signOut()
-    await firebaseStore.clearStateWhenSignOut()
     router.push('/')
   } catch (error) {
     console.log(error)

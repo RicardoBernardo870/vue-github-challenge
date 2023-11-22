@@ -12,8 +12,7 @@ const useFireBaseStore = defineStore({
     repos: [],
     bookmarks: [],
     uid: null,
-    username: null,
-    hasDataBeenFetched: false,
+    username: null
   }),
 
   actions: {
@@ -132,27 +131,8 @@ const useFireBaseStore = defineStore({
       } catch (error) {
         console.error('Error fetching items:', error);
       }
-    },
-
-    async fetchDataIfNeeded() {
-      if (!this.hasDataBeenFetched) {
-        await this.fetchItems();
-        this.setHasDataBeenFetched(true);
-      }
-    },
-
-    setHasDataBeenFetched(value) {
-      this.hasDataBeenFetched = value;
-    },
-
-    clearStateWhenSignOut() {
-      this.repos = [];
-      this.bookmarks = [];
-      this.uid = null;
-      this.username = null;
-      this.hasDataBeenFetched = false;
-    },
-  },
-});
+    }
+  }
+})
 
 export default useFireBaseStore;
