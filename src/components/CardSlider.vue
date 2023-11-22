@@ -106,7 +106,7 @@ onMounted(() => {
       <v-slide-group-item v-for="item in returnItems" :key="item.id">
         <v-card
           v-if="!isLoading && props.results.length > 0"
-          color="grey-lighten-1"
+          color="white"
           class="ma-4 card-hover"
           height="200"
           width="200"
@@ -123,6 +123,7 @@ onMounted(() => {
               :src="repositoryImage(item.owner.id)"
               class="bookmark-position"
             >
+            <v-card-subtitle>{{item.name}}</v-card-subtitle>
               <v-btn @click.stop="bookmarkSelection(item)" flat icon :ripple="false">
                 <slot name="icon" :item="item"></slot>
               </v-btn>
@@ -178,12 +179,13 @@ onMounted(() => {
   position: relative;
   button {
     position: absolute;
-    top: 0.625rem;
-    right: 0.625rem;
+    top: 0rem;
+    right: 0.3125rem;
     background: transparent;
     border: none;
     outline: none;
     cursor: pointer;
+    z-index: 1000;
   }
 }
 </style>
