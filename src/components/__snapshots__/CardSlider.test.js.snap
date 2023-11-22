@@ -1,0 +1,27 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renders correctly with bookmark mode 1`] = `
+"<div data-v-56c7ddee=\\"\\" class=\\"mt-3 title-container\\">
+  <div data-v-56c7ddee=\\"\\" class=\\"d-flex\\">
+    <h2 data-v-56c7ddee=\\"\\">My Bookmarks</h2>
+  </div>
+  <v-slide-group data-v-56c7ddee=\\"\\" class=\\"pa-4\\" selected-class=\\"bg-success\\" show-arrows=\\"\\"></v-slide-group>
+  <div data-v-56c7ddee=\\"\\" class=\\"no-match-found\\"><span data-v-56c7ddee=\\"\\">Add Bookmarks</span></div>
+</div>"
+`;
+
+exports[`renders correctly without bookmark mode 1`] = `
+"<div data-v-56c7ddee=\\"\\" class=\\"mt-3 title-container\\">
+  <div data-v-56c7ddee=\\"\\" class=\\"d-flex\\">
+    <h2 data-v-56c7ddee=\\"\\">Top Vue</h2>
+    <v-btn data-v-56c7ddee=\\"\\" class=\\"ml-2\\" flat=\\"\\"><img data-v-56c7ddee=\\"\\" style=\\"transform: rotate(-90deg);\\" src=\\"/src/assets/iconmonstr-arrow-64.svg\\"></v-btn>
+    <!--v-if-->
+  </div>
+  <v-slide-group data-v-56c7ddee=\\"\\" class=\\"pa-4\\" selected-class=\\"bg-success\\" show-arrows=\\"\\">
+    <v-slide-group-item data-v-56c7ddee=\\"\\">
+      <v-skeleton-loader data-v-56c7ddee=\\"\\" type=\\"image\\" height=\\"200\\" width=\\"200\\" class=\\"mr-10\\"></v-skeleton-loader>
+    </v-slide-group-item>
+  </v-slide-group>
+  <!--v-if-->
+</div>"
+`;
