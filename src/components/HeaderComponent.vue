@@ -19,7 +19,7 @@ const signOut = async () => {
     await authStore.signOut()
     router.push('/')
   } catch (error) {
-    console.log(error)
+    console.error(error)
   }
 }
 

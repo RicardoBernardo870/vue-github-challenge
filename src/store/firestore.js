@@ -1,4 +1,3 @@
-// store/index.js (Pinia)
 import { defineStore } from 'pinia';
 import { getFirestore, collection, doc, getDoc, updateDoc } from 'firebase/firestore';
 import useAuthStore from './authentication';
