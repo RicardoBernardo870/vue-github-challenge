@@ -55,7 +55,7 @@ const filterResults = (language) => {
 const fetchFirebaseData = async () => {
   try {
     loading.value = true
-    await firebaseStore.fetchItems()
+    await firebaseStore.fetchDataIfNeeded()
 
     const { repos, bookmarks } = firebaseStore
 

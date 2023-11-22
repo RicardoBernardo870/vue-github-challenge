@@ -28,6 +28,8 @@ const useAuthStore = defineStore({
 
         await signOut(auth)
         this.user = null
+        localStorage.removeItem('username')
+        localStorage.removeItem('user')
 
       } catch (error) {
         console.error('Error signing out:', error.code, error.message)

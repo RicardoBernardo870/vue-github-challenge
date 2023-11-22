@@ -11,7 +11,8 @@ const useFireBaseStore = defineStore({
     repos: [],
     bookmarks: [],
     uid: null,
-    username: null
+    username: null,
+    hasDataBeenFetched: false
   }),
 
   actions: {
@@ -144,6 +145,25 @@ const useFireBaseStore = defineStore({
       } catch (error) {
         console.error('Error fetching documents:', error)
       }
+    },
+
+    async fetchDataIfNeeded() {
+      if (!this.hasDataBeenFetched) {
+        await this.fetchItems();
+        this.setHasDataBeenFetched(true);
+      }
+    },
+
+    setHasDataBeenFetched(value) {
+      this.hasDataBeenFetched = value;
+    },
+    
+    clearStateWhenSignOut() {
+      this.repos = []
+      this.bookmarks = []
+      this.uid = null
+      this.username = null
+      this.hasDataBeenFetched = false
     }
   }
 })
