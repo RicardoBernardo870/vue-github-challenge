@@ -47,10 +47,6 @@ const bookmarkSelection = async (bookmark) => {
   }
 }
 
-const removeBookmark = async (item) => {
-  bookmarks.value = bookmarks.value.filter((bookmark) => bookmark.id !== item.id)
-}
-
 const filterResults = (language) => {
   return languageResults.value[language] || []
 }
@@ -118,7 +114,7 @@ onMounted(async () => {
         :language="selected"
         :results="bookmarks"
         :bookmarkMode="true"
-        @bookmarkSelection="removeBookmark"
+        @bookmarkSelection="bookmarkSelection"
       >
         <template #icon="{ item }">
           <inline-svg
