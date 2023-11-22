@@ -21,15 +21,6 @@ const useFireBaseStore = defineStore({
       return doc(userCollection, authStore.user.uid);
     },
 
-    async updateDocField(field, value) {
-      try {
-        const docRef = await this.getDocRef();
-        await updateDoc(docRef, { [field]: value });
-      } catch (error) {
-        console.error(`Error updating ${field}:`, error);
-      }
-    },
-
     async addStorageItems(language, sort = 'stars') {
       try {
         const docRef = await this.getDocRef();
