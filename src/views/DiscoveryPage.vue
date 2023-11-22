@@ -25,7 +25,6 @@ const selectedSort = async (item, language) => {
 
 const requestRepos = async (language, sort, state) => {
   try {
-
     const data = await gitHubStore.searchRepositories(language, sort)
 
     languageResults.value[language] = data
@@ -38,14 +37,18 @@ const requestRepos = async (language, sort, state) => {
   }
 }
 
-const bookmarkSelection = async (item) => {
-  bookmarks.value.push(item)
-  await firebaseStore.addBookMarks(item)
+const bookmarkSelection = async (bookmark) => {
+  if (!bookmarks.value.find((item) => item.id === bookmark.id)) {
+    bookmarks.value.push(bookmark)
+    await firebaseStore.addBookMarks(bookmark)
+  } else {
+    bookmarks.value = bookmarks.value.filter((item) => item.id !== bookmark.id)
+    await firebaseStore.removeBookMarks(bookmark)
+  }
 }
 
 const removeBookmark = async (item) => {
   bookmarks.value = bookmarks.value.filter((bookmark) => bookmark.id !== item.id)
-  await firebaseStore.removeBookMarks(item)
 }
 
 const filterResults = (language) => {
