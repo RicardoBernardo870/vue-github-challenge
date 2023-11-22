@@ -1,8 +1,9 @@
-import { defineStore } from 'pinia'
-import { getFirestore, collection, doc, getDoc, updateDoc } from 'firebase/firestore'
-import useAuthStore from './authentication'
+// store/index.js (Pinia)
+import { defineStore } from 'pinia';
+import { getFirestore, collection, doc, getDoc, updateDoc } from 'firebase/firestore';
+import useAuthStore from './authentication';
 
-const authStore = useAuthStore()
+const authStore = useAuthStore();
 
 const useFireBaseStore = defineStore({
   id: 'firestore',
@@ -12,138 +13,124 @@ const useFireBaseStore = defineStore({
     bookmarks: [],
     uid: null,
     username: null,
-    hasDataBeenFetched: false
+    hasDataBeenFetched: false,
   }),
 
   actions: {
+    async getDocRef() {
+      const db = getFirestore();
+      const userCollection = collection(db, 'users');
+      return doc(userCollection, authStore.user.uid);
+    },
+
+    async updateDocField(field, value) {
+      try {
+        const docRef = await this.getDocRef();
+        await updateDoc(docRef, { [field]: value });
+      } catch (error) {
+        console.error(`Error updating ${field}:`, error);
+      }
+    },
+
     async addStorageItems(language, sort = 'stars') {
       try {
-        const db = getFirestore()
-        const userCollection = collection(db, 'users')
-        const userDocRef = doc(userCollection, authStore.user.uid)
-        const userDoc = await getDoc(userDocRef)
+        const docRef = await this.getDocRef();
+        const userDoc = await getDoc(docRef);
 
-        const existingData = userDoc.exists() ? userDoc.data().data : []
-
-        const existingItem = existingData.find((item) => item.language === language)
+        const existingData = userDoc.exists() ? userDoc.data().data : [];
+        const existingItem = existingData.find((item) => item.language === language);
 
         if (!existingItem) {
-          existingData.push({
-            language: language,
-            sort: sort
-          })
+          existingData.push({ language, sort });
         } else {
-          existingItem.sort = sort
+          existingItem.sort = sort;
         }
-        await updateDoc(userDocRef, {
-          data: existingData
-        })
+
+        await updateDoc(docRef, { data: existingData });
+        this.fetchItems();
       } catch (error) {
-        console.error('Error updating document:', error)
+        console.error('Error adding storage items:', error);
       }
     },
 
     async removeStorageItems(language) {
       try {
-        const db = getFirestore()
-        const userCollection = collection(db, 'users')
-        const userDocRef = doc(userCollection, authStore.user.uid)
-        const userDoc = await getDoc(userDocRef)
+        const docRef = await this.getDocRef();
+        const userDoc = await getDoc(docRef);
 
-        const existingData = userDoc.exists() ? userDoc.data().data : []
-
-        const existingItem = existingData.find((item) => item.language === language)
+        const existingData = userDoc.exists() ? userDoc.data().data : [];
+        const existingItem = existingData.find((item) => item.language === language);
 
         if (existingItem) {
-          existingData.splice(existingData.indexOf(existingItem), 1)
+          existingData.splice(existingData.indexOf(existingItem), 1);
         }
 
-        await updateDoc(userDocRef, {
-          data: existingData
-        })
+        await updateDoc(docRef, { data: existingData });
+        this.fetchItems();
       } catch (error) {
-        console.error('Error updating document:', error)
+        console.error('Error removing storage items:', error);
       }
     },
 
     async addBookMarks(item) {
       try {
-        const db = getFirestore()
-        const userCollection = collection(db, 'users')
-        const userDocRef = doc(userCollection, authStore.user.uid)
-        const userDoc = await getDoc(userDocRef)
+        const docRef = await this.getDocRef();
+        const userDoc = await getDoc(docRef);
 
-        const existingData = userDoc.exists() ? userDoc.data().bookmarks : []
-
-        const existingItem = existingData.find((bookmark) => bookmark.id === item.id)
+        const existingData = userDoc.exists() ? userDoc.data().bookmarks : [];
+        const existingItem = existingData.find((bookmark) => bookmark.id === item.id);
 
         if (!existingItem) {
-          existingData.push(item)
+          existingData.push(item);
         }
 
-        await updateDoc(userDocRef, {
-          bookmarks: existingData
-        })
+        await updateDoc(docRef, { bookmarks: existingData });
       } catch (error) {
-        console.error('Error updating document:', error)
+        console.error('Error adding bookmarks:', error);
       }
     },
 
     async changeUsername(username) {
       try {
-        const db = getFirestore()
-        const userCollection = collection(db, 'users')
-        const userDocRef = doc(userCollection, authStore.user.uid)
-
-        await updateDoc(userDocRef, {
-          username: username
-        })
-        this.fetchItems()
-        localStorage.setItem('username', username)
+        const docRef = await this.getDocRef();
+        await updateDoc(docRef, { username });
+        this.fetchItems();
+        localStorage.setItem('username', username);
       } catch (error) {
-        console.error('Error updating document:', error)
+        console.error('Error changing username:', error);
       }
     },
 
     async removeBookMarks(item) {
       try {
-        const db = getFirestore()
-        const userCollection = collection(db, 'users')
-        const userDocRef = doc(userCollection, authStore.user.uid)
-        const userDoc = await getDoc(userDocRef)
+        const docRef = await this.getDocRef();
+        const userDoc = await getDoc(docRef);
 
-        const existingData = userDoc.exists() ? userDoc.data().bookmarks : []
-
-        const existingItem = existingData.find((bookmark) => bookmark.id === item.id)
+        const existingData = userDoc.exists() ? userDoc.data().bookmarks : [];
+        const existingItem = existingData.find((bookmark) => bookmark.id === item.id);
 
         if (existingItem) {
-          existingData.splice(existingData.indexOf(existingItem), 1)
+          existingData.splice(existingData.indexOf(existingItem), 1);
         }
 
-        await updateDoc(userDocRef, {
-          bookmarks: existingData
-        })
+        await updateDoc(docRef, { bookmarks: existingData });
       } catch (error) {
-        console.error('Error updating document:', error)
+        console.error('Error removing bookmarks:', error);
       }
     },
 
     async fetchItems() {
-      const db = getFirestore()
-      const userCollection = collection(db, 'users')
-
       try {
-        const userDocRef = doc(userCollection, authStore.user.uid)
-        const querySnapshot = await getDoc(userDocRef)
+        const docRef = await this.getDocRef();
+        const querySnapshot = await getDoc(docRef);
+        const data = querySnapshot.data();
 
-        const data = querySnapshot.data()
-
-        this.bookmarks = data.bookmarks || []
-        this.uid = data.uid
-        this.repos = data.data || []
-        this.username = data.username
+        this.bookmarks = data.bookmarks || [];
+        this.uid = data.uid;
+        this.repos = data.data || [];
+        this.username = data.username;
       } catch (error) {
-        console.error('Error fetching documents:', error)
+        console.error('Error fetching items:', error);
       }
     },
 
@@ -157,15 +144,15 @@ const useFireBaseStore = defineStore({
     setHasDataBeenFetched(value) {
       this.hasDataBeenFetched = value;
     },
-    
-    clearStateWhenSignOut() {
-      this.repos = []
-      this.bookmarks = []
-      this.uid = null
-      this.username = null
-      this.hasDataBeenFetched = false
-    }
-  }
-})
 
-export default useFireBaseStore
+    clearStateWhenSignOut() {
+      this.repos = [];
+      this.bookmarks = [];
+      this.uid = null;
+      this.username = null;
+      this.hasDataBeenFetched = false;
+    },
+  },
+});
+
+export default useFireBaseStore;
