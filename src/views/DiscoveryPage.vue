@@ -25,16 +25,16 @@ const selectedSort = async (item, language) => {
 
 const requestRepos = async (language, sort, state) => {
   try {
+    if (state === 'onAdd') {
+      await firebaseStore.addStorageItems(language, sort)
+    }
+
     const data = await gitHubStore.searchRepositories(language, sort)
 
     languageResults.value[language] = data
   } catch (error) {
     console.error(error)
-  } finally {
-    if (state === 'onAdd') {
-      await firebaseStore.addStorageItems(language, sort)
-    }
-  }
+  } 
 }
 
 const bookmarkSelection = async (bookmark) => {
@@ -108,7 +108,6 @@ onMounted(async () => {
   <div>
     <HeaderComponent></HeaderComponent>
     <div class="pa-5">
-
       <Cardslider
         v-if="!loading"
         :language="selected"

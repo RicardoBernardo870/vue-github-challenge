@@ -4,11 +4,11 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
-  signOut,
-  
+  signOut
 } from 'firebase/auth'
 import { getFirestore, collection, setDoc, doc } from 'firebase/firestore'
-
+import useFireBaseStore from './firestore'
+import useGitHubStore from './github'
 
 const useAuthStore = defineStore({
   id: 'auth',
@@ -25,6 +25,8 @@ const useAuthStore = defineStore({
     async signOut() {
       try {
         const auth = getAuth()
+
+        this.clearStores()
 
         await signOut(auth)
         this.user = null
@@ -49,7 +51,7 @@ const useAuthStore = defineStore({
           username: username,
           uid: userCredential.user.uid,
           data: [],
-          bookmarks: [],
+          bookmarks: []
         })
         this.user = userCredential.user
         localStorage.setItem('username', username)
@@ -73,6 +75,7 @@ const useAuthStore = defineStore({
     async initAuth() {
       return new Promise((resolve) => {
         const auth = getAuth()
+
         const unsubscribe = onAuthStateChanged(auth, (user) => {
           if (user) {
             this.user = user
@@ -81,6 +84,14 @@ const useAuthStore = defineStore({
           unsubscribe()
         })
       })
+    },
+
+    clearStores() {
+      const fireBase = useFireBaseStore()
+      const gitHub = useGitHubStore()
+
+      fireBase.clearState()
+      gitHub.clearState()
     }
   }
 })

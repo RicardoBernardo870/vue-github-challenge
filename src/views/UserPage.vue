@@ -23,6 +23,8 @@ const save = async () => {
     loading.value = true
     await firebaseStore.changeUsername(userName.value)
 
+    localStorage.setItem('username', userName.value)
+
     successMessage.value = 'Username changed successfully'
 
     loading.value = false

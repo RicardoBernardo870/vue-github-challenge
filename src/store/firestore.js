@@ -2,7 +2,6 @@ import { defineStore } from 'pinia';
 import { getFirestore, collection, doc, getDoc, updateDoc } from 'firebase/firestore';
 import useAuthStore from './authentication';
 
-const authStore = useAuthStore();
 
 const useFireBaseStore = defineStore({
   id: 'firestore',
@@ -17,6 +16,7 @@ const useFireBaseStore = defineStore({
   actions: {
     async getDocRef() {
       const db = getFirestore();
+      const authStore = useAuthStore();
       const userCollection = collection(db, 'users');
       return doc(userCollection, authStore.user.uid);
     },
@@ -121,7 +121,14 @@ const useFireBaseStore = defineStore({
       } catch (error) {
         console.error('Error fetching items:', error);
       }
-    }
+    },
+
+    clearState() {
+      this.bookmarks = [];
+      this.repos = [];
+      this.uid = null;
+      this.username = null;
+    },
   }
 })
 

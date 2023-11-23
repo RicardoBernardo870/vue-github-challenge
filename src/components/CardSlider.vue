@@ -4,7 +4,6 @@ import lazyLoading from '../assets/iconmonstr-github-1.svg'
 import arrowRight from '../assets/iconmonstr-arrow-63.svg'
 import arrowLeft from '../assets/iconmonstr-arrow-64.svg'
 
-
 const props = defineProps({
   language: {
     type: String,
@@ -35,14 +34,6 @@ const openNewTab = (item) => {
   window.open(item.html_url, '_blank')
 }
 
-const openMenu = () => {
-  menuOpen.value = !menuOpen.value
-}
-
-const clickOutside = () => {
-  menuOpen.value = false
-}
-
 const bookmarkSelection = (item) => {
   emits('bookmarkSelection', item)
 }
@@ -69,7 +60,7 @@ onMounted(() => {
   }
   setTimeout(() => {
     isLoading.value = false
-  }, 600)
+  }, 500)
 })
 </script>
 
@@ -78,18 +69,19 @@ onMounted(() => {
     <div v-if="!bookmarkMode" class="d-flex">
       <h2>Top {{ props.language }}</h2>
 
-      <v-btn v-click-outside="clickOutside" @click="openMenu" class="ml-2" flat
-        ><img style="transform: rotate(-90deg)" :src="arrowLeft" />
-      </v-btn>
-
-      <v-card v-if="menuOpen" class="sub-menu" max-width="300">
+      <v-menu transition="slide-y-transition">
+        <template v-slot:activator="{ props }">
+          <v-btn color="white" flat class="ml-5" v-bind="props">
+            <img style="transform: rotate(-90deg)" :src="arrowLeft" />
+          </v-btn>
+        </template>
         <v-list
           @click:select="selectedOption"
           :items="sortOptions"
           item-title="name"
           item-value="id"
         ></v-list>
-      </v-card>
+      </v-menu>
     </div>
     <div v-else class="d-flex">
       <h2>My Bookmarks</h2>
@@ -123,7 +115,7 @@ onMounted(() => {
               :src="repositoryImage(item.owner.id)"
               class="bookmark-position"
             >
-            <v-card-subtitle>{{item.name}}</v-card-subtitle>
+              <v-card-subtitle>{{ item.name }}</v-card-subtitle>
               <v-btn @click.stop="bookmarkSelection(item)" flat icon :ripple="false">
                 <slot name="icon" :item="item"></slot>
               </v-btn>
@@ -152,15 +144,6 @@ onMounted(() => {
   &:hover {
     transform: scale(1.1);
   }
-}
-.sub-menu {
-  position: absolute;
-  z-index: 1000;
-  left: 13.125rem;
-  top: 1.875rem;
-}
-.title-container {
-  position: relative;
 }
 .no-match-found {
   width: 100%;
