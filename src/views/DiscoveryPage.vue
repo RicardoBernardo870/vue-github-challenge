@@ -108,7 +108,7 @@ onMounted(async () => {
   <div>
     <HeaderComponent></HeaderComponent>
     <div class="pa-5">
-      <!-- Bookmarks section -->
+
       <Cardslider
         v-if="!loading"
         :language="selected"
@@ -126,8 +126,6 @@ onMounted(async () => {
           <inline-svg v-else :src="favouritesSelected" fill="black" aria-label="My image" />
         </template>
       </Cardslider>
-
-      <!-- Filter chip group -->
 
       <div v-if="!loading">
         <h4>Toggle topics to show</h4>
