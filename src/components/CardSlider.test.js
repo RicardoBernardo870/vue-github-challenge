@@ -12,6 +12,7 @@ test('renders correctly with bookmark mode', async () => {
   });
 
   expect(wrapper.html()).toMatchSnapshot();
+  expect(wrapper.find('v-card').exists()).toBe(false);
 });
 
 test('renders correctly without bookmark mode', async () => {
@@ -23,5 +24,6 @@ test('renders correctly without bookmark mode', async () => {
     },
   });
 
-  expect(wrapper.html()).toMatchSnapshot();
+  expect(wrapper.find('h2').text()).toBe('Vue');
+  expect(wrapper.find('v-card').exists()).toBe(true);
 });
