@@ -33,12 +33,15 @@ const onSubmit = async () => {
       await authStore.signInWithEmail(userEmail.value, password.value);  
     } catch (error) {
       errors.value = error.message;
+
+      setTimeout(() => {
+          errors.value = '';
+      }, 3000); 
+        
     } finally {
       loading.value = false;
       router.push('/discovery');
-      setTimeout(() => {
-        errors.value = '';
-      }, 3000);
+
   }
 
   
