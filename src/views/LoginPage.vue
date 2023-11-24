@@ -23,7 +23,13 @@ const passwordRules = [
 
 const onSubmit = async () => {
     loading.value = true;
-    try {
+  try {
+      const isValid = await formRef.value.validate()
+
+      if (!isValid.valid) {
+        return
+    }
+      
       await authStore.signInWithEmail(userEmail.value, password.value);  
     } catch (error) {
       errors.value = error.message;
