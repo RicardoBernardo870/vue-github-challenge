@@ -1,7 +1,7 @@
 
 This was a code challenge i was proposed to do. 
-It was created with a Auth system using firebase and data saving using the cloudstore database. 
-Initially it used the github API, being a work in progress, i will better it and transform it into a private library of movies, books, games etc.
+It was created with the Auth system of firebase and data saving capability of the cloudstore database. 
+Initially it used the github API to fetch data, i will now make it better and transform it into a private library of movies, books, games etc.
 
 
 
