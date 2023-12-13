@@ -1,3 +1,13 @@
+
+This was a code challenge i was proposed to do. It was implemented using firebase, and initially using the github API, it is still a work in progress, i will better it and transform it into a private library of movies, books, games etc.
+
+
+
+
+
+
+
+
 # vue-github-challenge
 
 This template should help get you started developing with Vue 3 in Vite.
