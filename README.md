@@ -1,5 +1,7 @@
 
-This was a code challenge i was proposed to do. It was implemented using firebase, and initially using the github API, it is still a work in progress, i will better it and transform it into a private library of movies, books, games etc.
+This was a code challenge i was proposed to do. 
+It was created with a Auth system using firebase and data saving using the cloudstore database. 
+Initially it used the github API, being a work in progress, i will better it and transform it into a private library of movies, books, games etc.
 
 
 
