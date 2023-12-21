@@ -1,5 +1,4 @@
-
-This was a code challenge i was proposed to do. 
+This was a challenge to create a small app with bookmark signup and login functionalities.
 It was created with the Auth system of firebase and data saving capability of the cloudstore database. 
 The main focus was the creation of functionality and components using VueJs and structure of project, UI was not the focus.
 
