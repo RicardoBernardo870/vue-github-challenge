@@ -1,22 +1,22 @@
-import { defineStore } from 'pinia';
+import { defineStore } from "pinia";
 
 const useGitHubStore = defineStore({
-  id: 'github',
+  id: "github",
 
   state: () => ({
     languageResults: {},
   }),
 
   actions: {
-    async searchRepositories(language, sort = 'stars') {
-
+    async searchRepositories(language, sort = "stars") {
       const languageSort = `${language}-${sort}`;
+      
       if (this.languageResults[languageSort]) {
         return this.languageResults[languageSort];
       }
 
-      const apiUrl = 'https://api.github.com/search/repositories';
-      const accessToken = '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';
+      const apiUrl = "https://api.github.com/search/repositories";
+      const accessToken = "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";
 
       const perPage = 10;
       const page = 1;
@@ -40,7 +40,7 @@ const useGitHubStore = defineStore({
 
         return data.items;
       } catch (error) {
-        console.error('Error:', error.message);
+        console.error("Error:", error.message);
       }
     },
 

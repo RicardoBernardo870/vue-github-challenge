@@ -1,6 +1,5 @@
 <script setup>
-import { RouterView } from 'vue-router'
-
+  import { RouterView } from "vue-router";
 </script>
 
 <template>
@@ -8,15 +7,13 @@ import { RouterView } from 'vue-router'
 </template>
 
 <style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  overflow-y: none;
-}
-
+  html {
+    overflow-y: none;
+  }
 </style>

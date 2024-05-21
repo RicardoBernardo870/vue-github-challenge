@@ -1,67 +1,59 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import useAuthStore from '../store/authentication'
-
-
+import { createRouter, createWebHistory } from "vue-router";
+import useAuthStore from "../store/authentication";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',
-      name: 'login-page',
-      component: () => import('../views/LoginPage.vue'),
+      path: "/",
+      name: "login-page",
+      component: () => import("../views/LoginPage.vue"),
       meta: {
-        requiresAuth: false
-      }
+        requiresAuth: false,
+      },
     },
     {
-      path: '/signup',
-      name: 'signup-page',
-      component: () => import('../views/SignUpPage.vue'),
+      path: "/signup",
+      name: "signup-page",
+      component: () => import("../views/SignUpPage.vue"),
       meta: {
-        requiresAuth: false
-      }
+        requiresAuth: false,
+      },
     },
     {
-      path: '/discovery',
-      name: 'discovery-page',
-      component: () => import('../views/DiscoveryPage.vue'),
+      path: "/discovery",
+      name: "discovery-page",
+      component: () => import("../views/DiscoveryPage.vue"),
       meta: {
-        requiresAuth: true
-      }
+        requiresAuth: true,
+      },
     },
     {
-      path: '/user',
-      name: 'user-page',
-      component: () => import('../views/UserPage.vue'),
+      path: "/user",
+      name: "user-page",
+      component: () => import("../views/UserPage.vue"),
       meta: {
-        requiresAuth: true
-      }
-    }
-  ]
-})
-
+        requiresAuth: true,
+      },
+    },
+  ],
+});
 
 const authGuard = async (to, from, next) => {
   const authStore = useAuthStore();
   await authStore.initAuth();
 
-  if (to.matched.some(record => record.meta.requiresAuth)) {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (!authStore.isAuthenticated) {
-      next('/');
-      
+      next("/");
     } else {
       next();
     }
   } else {
-
     next();
   }
 };
 
 router.beforeEach(authGuard);
 
-
-
-
-export default router
+export default router;
